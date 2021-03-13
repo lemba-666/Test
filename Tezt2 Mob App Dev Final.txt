@@ -1,0 +1,156 @@
+Simple todo app
+
+
+
+first.js
+
+import React, {Component} from 'react';
+import {StyleSheet ,TextInput, View ,Text,TouchableOpacity} from 'react-native';
+import { FlatList} from 'react-native-gesture-handler';
+
+
+
+
+class Firstscreen extends React.Component
+{
+    static navigationOptions = {
+        headerShown: false,
+    
+      }
+    constructor(props) {
+        super(props);
+        this.array =[],
+        this.state={
+            arrayHolder:[],
+            textInput_Holder:'',
+        }
+        this.myTextInput = React.createRef();
+    }
+
+    componentDidMount() {
+          this.setState({ arrayHolder: [...this.array] })
+          }
+     
+     
+      addData = () => {    
+        this.array.push({title : this.state.textInput_Holder});       
+        this.setState({ arrayHolder: [...this.array] })
+        this.myTextInput.current.clear();
+      }
+     
+      
+      
+    render(){
+              
+        return (
+                           
+                <View style={styles.container}>
+                     
+                        <View style={styles.container1}>
+                            <Text style={styles.headerText}>To Do List</Text>
+                        </View>
+
+                        <View style={styles.container2}>
+
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder='Enter new task'
+                                onChangeText={data => this.setState({ textInput_Holder: data })}
+                                ref={this.myTextInput}
+                            />
+                            <TouchableOpacity onPress={this.addData}  style={styles.button} ><Text style={styles.buttonText}> New Task </Text>
+                            </TouchableOpacity>
+
+                        </View>
+
+                        <View style={styles.container3}>
+
+                            <FlatList
+                            
+                                data={this.state.arrayHolder}
+                                keyExtractor={(index) => index.toString()}
+                                renderItem={({ item }) => <TouchableOpacity style={styles.listStyle}><Text style={styles.listTextStyle}>{item.title}</Text></TouchableOpacity>}
+                            />
+                        </View>
+                </View>
+                
+        )
+    }
+}
+export default Firstscreen;
+
+
+const styles = StyleSheet.create({
+    container: {
+      flex:1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      
+    },
+    container1:{
+        height:'12%', 
+        backgroundColor: '#466aa3', 
+        alignItems: 'center',
+        justifyContent:'center',
+        width: 384,
+    },
+    container2:{
+        height:'18%',
+        width:'100%',       
+        backgroundColor:'#e3e5e8',
+        alignItems:'center',
+        justifyContent:'center'
+    
+    },
+    container3:{
+        height:500,
+        width:'100%',
+        
+        backgroundColor:'#e3e5e8'
+    },
+    headerText:{
+        alignContent:'center',
+        justifyContent:'center',
+        paddingTop:30,
+        fontSize:20,
+        fontWeight:'bold'       
+    },
+    textInput:{
+        
+        height:'30%',
+        width: '80%',
+        backgroundColor:'#fff',
+        borderRadius: 8,
+        alignItems:'center',
+        paddingHorizontal:20
+    },
+    button: {
+ 
+        width: '80%',
+        height: '30%',
+        marginTop:10,
+        backgroundColor: '#4CAF50',
+        borderRadius: 8,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    buttonText:{
+        fontSize:16
+    },
+    listStyle:{
+        height:40,
+        marginBottom:5,
+        borderRadius:5,
+        backgroundColor:'grey',
+        marginHorizontal:20,
+        backgroundColor: '#fff',
+        elevation: 5,
+        justifyContent:'center'
+    },
+    listTextStyle:{
+        paddingHorizontal:20,
+        fontSize:16
+    }
+    
+    
+});
